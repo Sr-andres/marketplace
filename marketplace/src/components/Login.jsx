@@ -33,7 +33,7 @@ const Login = () => {
 
   return (
     <div>
-      <h2 className="title-inic">Bienvenido a ReestrenaYa</h2> 
+      <h2 className="title-inic">WELCOME A REESTRENAYA</h2> 
       
       <div className="login-container">
         <h1>Iniciar Sesión</h1>

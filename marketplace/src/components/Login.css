@@ -1,14 +1,13 @@
 /* Login.css */
-body {
-    margin: 0;
-    display: flex;
-    place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
-    flex-direction: column;
-    justify-content: center;
-    background-color: #85929e ;
-}
+/* body {
+  /* background-image: url("/src/assets/img/fondo.jpeg"); 
+  background-size: cover; 
+  background-position: center;
+  background-repeat: no-repeat; 
+  height: 100vh; 
+  margin: 0; 
+  padding: 0; */
+ 
 /* Contenedor principal del login */
 @keyframes animar-sombra {
   0% {
@@ -30,7 +29,7 @@ body {
     display: flex;
     padding: 20px;  
     max-width: 400px;
-    margin: auto;
+    margin: 20px;
     background-color: rgb(93, 109, 126);
     border-radius: 12px;
     animation: animar-sombra 5s infinite ease-in-out; /* Animación suave */
@@ -106,10 +105,35 @@ body {
   .title-inic {
     position: absolute;
     top: 0; /* Lo coloca en la parte superior */
-    left: 0; /* Lo alinea a la izquierda */
+    left: 430px; /* Lo alinea a la izquierda */
     margin: 10px; /* Espacio opcional desde los bordes */
     padding: 10px; /* Para que el fondo verde no esté pegado al texto */
-    color: black;
-   ;
+    font-size: 50px;
+    font-weight: bold;
+    text-transform: uppercase;
+    animation: neonGlow 5s infinite alternate;
  }
+
+ @keyframes neonGlow {
+  0% { 
+      color: rgb(255, 207, 179); /* Naranja vibrante */
+      text-shadow: 0 0 5px rgb(255, 94, 0), 0 0 10px rgb(255, 165, 0), 0 0 20px rgb(255, 94, 0); 
+  }
+  25% { 
+      color: rgb(177, 205, 247); /* Azul eléctrico */
+      text-shadow: 0 0 5px rgb(0, 102, 255), 0 0 10px rgb(0, 204, 255), 0 0 20px rgb(0, 102, 255); 
+  }
+  50% { 
+      color: rgb(255, 181, 211); /* Rosa neón */
+      text-shadow: 0 0 5px rgb(255, 0, 102), 0 0 10px rgb(255, 102, 204), 0 0 20px rgb(255, 0, 102); 
+  }
+  75% { 
+      color: rgb(235, 235, 210); /* Amarillo brillante */
+      text-shadow: 0 0 5px rgba(255, 255, 0, 0.455), 0 0 10px rgb(143, 143, 68), 0 0 20px rgb(182, 182, 14); 
+  }
+  100% { 
+      color: rgb(197, 237, 217); /* Verde neón */
+      text-shadow: 0 0 5px rgb(0, 255, 128), 0 0 10px rgb(102, 255, 204), 0 0 20px rgb(0, 255, 128); 
+  }
+}
  

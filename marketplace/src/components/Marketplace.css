@@ -10,7 +10,9 @@
   margin-bottom: 20px;
   color: #333;
 }
-
+.title{
+  text-align: center;
+}
 .publish-button,
 .logout-button {
   padding: 10px 20px;

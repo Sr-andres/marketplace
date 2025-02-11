@@ -62,7 +62,7 @@ const Marketplace = () => {
   };
   return (
     <div className="marketplace-container">
-      <h1>Marketplace</h1>
+      <h1 className="title">Bienvenido a ReestrenaYa</h1>
 
       {!isFormVisible && (
         <button className="publish-button" onClick={() => setIsFormVisible(true)}>
