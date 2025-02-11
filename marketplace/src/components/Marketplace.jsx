@@ -60,6 +60,7 @@ const Marketplace = () => {
   const handleViewMore = (product) => {
     alert(`Detalles del producto:\n\nNombre: ${product.name}\nPrecio: $${product.price}`);
   };
+
   return (
     <div className="marketplace-container">
       <h1 className="title">Bienvenido a ReestrenaYa</h1>
@@ -91,6 +92,20 @@ const Marketplace = () => {
               <div className="product-info">
                 <h3 className="product-title">{product.name}</h3>
                 <p className="product-price">${product.price}</p>
+                
+                {/* Mostrar botón de ubicación solo si el producto tiene coordenadas */}
+                <button className="ubic">
+                {product.location && (
+                  <a
+                    href={`https://www.google.com/maps?q=${product.location}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="location-button"
+                  >
+                    📍 Ver Ubicación
+                  </a>
+                )}
+                </button>
                 <button
                   className="delete-button"
                   onClick={() => handleDelete(product.id)}

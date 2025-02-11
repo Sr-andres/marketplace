@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { db, storage } from "../firebase"; // Firebase configurado (Firestore y Storage)
+import { db, storage } from "../firebase"; // Importar configuración de Firebase
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import "./PublishProduct.css";
@@ -8,14 +8,33 @@ const PublishProduct = ({ setIsFormVisible, setProducts }) => {
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productImages, setProductImages] = useState([]);
-  const [uploading, setUploading] = useState(false); // Para mostrar estado de carga
+  const [productLocation, setProductLocation] = useState("");
+  const [uploading, setUploading] = useState(false);
 
-  // Función para manejar el envío del formulario
+  // Función para obtener la ubicación del usuario
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setProductLocation(`${latitude}, ${longitude}`);
+        },
+        (error) => {
+          console.error("Error obteniendo ubicación: ", error);
+          alert("No se pudo obtener la ubicación.");
+        }
+      );
+    } else {
+      alert("Tu navegador no soporta la geolocalización.");
+    }
+  };
+
+  // Manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Esperar a que todas las imágenes se suban y obtener sus URLs
+      // Subir imágenes a Firebase Storage y obtener URLs
       setUploading(true);
       const uploadedImages = await Promise.all(
         productImages.map(async (image) => {
@@ -25,20 +44,27 @@ const PublishProduct = ({ setIsFormVisible, setProducts }) => {
         })
       );
 
-      // Agregar el producto a Firebase Firestore
+      // Guardar producto en Firestore
       const docRef = await addDoc(collection(db, "products"), {
         name: productName,
         price: productPrice,
         images: uploadedImages,
+        location: productLocation, // Guardar ubicación
       });
 
-      // Actualizar la lista de productos en el Marketplace
+      // Actualizar lista de productos en la interfaz
       setProducts((prevProducts) => [
         ...prevProducts,
-        { id: docRef.id, name: productName, price: productPrice, images: uploadedImages },
+        {
+          id: docRef.id,
+          name: productName,
+          price: productPrice,
+          images: uploadedImages,
+          location: productLocation,
+        },
       ]);
 
-      // Resetear el formulario y cerrar
+      // Resetear formulario y cerrar
       setUploading(false);
       setIsFormVisible(false);
     } catch (error) {
@@ -47,16 +73,17 @@ const PublishProduct = ({ setIsFormVisible, setProducts }) => {
     }
   };
 
-  // Manejar el cambio de archivo
+  // Manejar la selección de archivos
   const handleFileChange = (e) => {
-    setProductImages(Array.from(e.target.files)); // Guardar archivos seleccionados
+    setProductImages(Array.from(e.target.files));
   };
 
   return (
     <div className="conta">
       <h2 className="titel">Publicar Producto</h2>
       <form onSubmit={handleSubmit}>
-        <input className="txt"
+        <input
+          className="txt"
           type="text"
           placeholder="Nombre del producto"
           value={productName}
@@ -68,6 +95,14 @@ const PublishProduct = ({ setIsFormVisible, setProducts }) => {
           placeholder="Precio"
           value={productPrice}
           onChange={(e) => setProductPrice(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Ubicación"
+          value={productLocation}
+          readOnly
+          onClick={getLocation} // Llamar función cuando el usuario toque la casilla
           required
         />
         <input
