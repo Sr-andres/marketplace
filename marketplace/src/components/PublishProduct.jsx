@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { db, storage } from "../firebase"; // Importar configuración de Firebase
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, query, orderBy, getDocs } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { serverTimestamp } from "firebase/firestore"; // Importar serverTimestamp
 import "./PublishProduct.css";
 
 const PublishProduct = ({ setIsFormVisible, setProducts }) => {
@@ -44,12 +45,13 @@ const PublishProduct = ({ setIsFormVisible, setProducts }) => {
         })
       );
 
-      // Guardar producto en Firestore
+      // Guardar producto en Firestore con timestamp
       const docRef = await addDoc(collection(db, "products"), {
         name: productName,
         price: productPrice,
         images: uploadedImages,
-        location: productLocation, // Guardar ubicación
+        location: productLocation,
+        timestamp: serverTimestamp(), // Agregar fecha de publicación
       });
 
       // Actualizar lista de productos en la interfaz
@@ -61,6 +63,7 @@ const PublishProduct = ({ setIsFormVisible, setProducts }) => {
           price: productPrice,
           images: uploadedImages,
           location: productLocation,
+          timestamp: new Date(), // Mostrar la fecha en la UI
         },
       ]);
 
@@ -76,6 +79,13 @@ const PublishProduct = ({ setIsFormVisible, setProducts }) => {
   // Manejar la selección de archivos
   const handleFileChange = (e) => {
     setProductImages(Array.from(e.target.files));
+  };
+
+  // Función para obtener productos ordenados por fecha de publicación
+  const fetchProductsByRecent = async () => {
+    const q = query(collection(db, "products"), orderBy("timestamp", "desc"));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   };
 
   return (

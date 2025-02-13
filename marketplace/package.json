@@ -11,11 +11,14 @@
   },
   "dependencies": {
     "firebase": "^11.0.2",
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.1",
     "leaflet": "^1.9.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^7.0.1",
+    "sharp": "^0.33.5",
     "swiper": "^11.1.15",
     "uuid": "^11.0.3"
   },

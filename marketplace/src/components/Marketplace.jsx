@@ -9,6 +9,9 @@ import "./Marketplace.css";
 const Marketplace = () => {
   const [products, setProducts] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [locationFilter, setLocationFilter] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,9 +64,41 @@ const Marketplace = () => {
     alert(`Detalles del producto:\n\nNombre: ${product.name}\nPrecio: $${product.price}`);
   };
 
+  // Filtrar productos por nombre y ubicación
+  const filteredProducts = products
+    .filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((product) =>
+      locationFilter ? product.location?.includes(locationFilter) : true
+    )
+    .sort((a, b) => (sortOrder === "asc" ? a.price - b.price : b.price - a.price));
+
   return (
     <div className="marketplace-container">
-      <h1 className="title">Bienvenido a ReestrenaYa</h1>
+      <div className="title">
+      <h1>Bienvenido a ReestrenaYa</h1>
+      </div>
+     
+
+      <div className="filters">
+        <input
+          type="text"
+          placeholder="Buscar por nombre"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <select onChange={(e) => setSortOrder(e.target.value)}>
+          <option value="asc">Precio: Menor a Mayor</option>
+          <option value="desc">Precio: Mayor a Menor</option>
+        </select>
+        <input
+          type="text"
+          placeholder="Filtrar por ubicación"
+          value={locationFilter}
+          onChange={(e) => setLocationFilter(e.target.value)}
+        />
+      </div>
 
       {!isFormVisible && (
         <button className="publish-button" onClick={() => setIsFormVisible(true)}>
@@ -83,8 +118,8 @@ const Marketplace = () => {
       )}
 
       <div className="product-grid">
-        {products.length > 0 ? (
-          products.map((product) => (
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
             <div key={product.id} className="product-item">
               <div className="product-img">
                 <Carousel images={product.images} />

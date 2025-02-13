@@ -11,7 +11,10 @@
   color: #333;
 }
 .title{
-  text-align: center;
+  display: flex;
+  justify-content: center;  
+  align-items: center;      
+  text-align: center;       
 }
 .publish-button,
 .logout-button {
@@ -227,3 +230,19 @@ body {
   background: -webkit-linear-gradient(187deg, #c4dfe6,#66a5ad);
   background: linear-gradient(187deg, #c4dfe6,#66a5ad);
 }
+
+.product-item {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.product-item:hover {
+  transform: scale(1.05);
+}
+
+
+
