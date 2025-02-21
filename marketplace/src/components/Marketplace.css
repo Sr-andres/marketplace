@@ -1,8 +1,8 @@
 .marketplace-container {
-  padding: 20px;
+  /* padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  overflow: hidden;
+  overflow: hidden; */
 }
 
 .marketplace-container h1 {
@@ -76,7 +76,6 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 productos por fila */
   gap: 20px;
-  margin-top: 20px;
 }
 
 .product-item {

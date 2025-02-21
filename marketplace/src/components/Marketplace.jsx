@@ -5,6 +5,10 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import PublishProduct from "./PublishProduct";
 import { useNavigate } from "react-router-dom";
 import "./Marketplace.css";
+import Map from "./Map";
+import Grid from "@mui/material/Grid2";
+import { Box, Container, Skeleton } from "@mui/material";
+
 
 const Marketplace = () => {
   const [products, setProducts] = useState([]);
@@ -75,11 +79,12 @@ const Marketplace = () => {
     .sort((a, b) => (sortOrder === "asc" ? a.price - b.price : b.price - a.price));
 
   return (
-    <div className="marketplace-container">
-      <div className="title">
-      <h1>Bienvenido a ReestrenaYa</h1>
+    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+
+      {/* <div className="title">
+        <h1>Bienvenido a ReestrenaYa</h1>
       </div>
-     
+
 
       <div className="filters">
         <input
@@ -115,52 +120,67 @@ const Marketplace = () => {
           setIsFormVisible={setIsFormVisible}
           setProducts={setProducts}
         />
-      )}
+      )} */}
 
-      <div className="product-grid">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <div key={product.id} className="product-item">
-              <div className="product-img">
-                <Carousel images={product.images} />
-              </div>
-              <div className="product-info">
-                <h3 className="product-title">{product.name}</h3>
-                <p className="product-price">${product.price}</p>
-                
-                {/* Mostrar botón de ubicación solo si el producto tiene coordenadas */}
-                <button className="ubic">
-                {product.location && (
-                  <a
-                    href={`https://www.google.com/maps?q=${product.location}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="location-button"
-                  >
-                    📍 Ver Ubicación
-                  </a>
-                )}
-                </button>
-                <button
-                  className="delete-button"
-                  onClick={() => handleDelete(product.id)}
+      <Box sx={{ flex: 1, overflow: "hidden" }}>
+        <Grid container flex={1} spacing={3}>
+          <Grid
+            size={8}
+            sx={{
+              overflow: "scroll",
+              maxHeight: "100vh",
+              scrollbarWidth: "none"
+            }}
+          >
+            <Grid container spacing={2}>
+              {filteredProducts.map((product, index) => (
+                <Grid
+                  key={index}
+                  size={{ lg: 4 }}
                 >
-                  Eliminar
-                </button>
-                <button
-                  className="view-more-button"
-                  onClick={() => handleViewMore(product)}
-                >
-                  Ver más
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>No hay productos disponibles.</p>
-        )}
-      </div>
-    </div>
+                  <Box sx={{ background: "white", width: "100%", height: 300, borderRadius: 3 }}>
+                    <div className="product-img">
+                      <Carousel images={product.images} />
+                    </div>
+                    <h3 className="product-title">{product.name}</h3>
+                    <p className="product-price">${product.price}</p>
+
+                    {/* Mostrar botón de ubicación solo si el producto tiene coordenadas */}
+                    <button className="ubic">
+                      {product.location && (
+                        <a
+                          href={`https://www.google.com/maps?q=${product.location}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="location-button"
+                        >
+                          📍 Ver Ubicación
+                        </a>
+                      )}
+                    </button>
+                    <button
+                      className="delete-button"
+                      onClick={() => handleDelete(product.id)}
+                    >
+                      Eliminar
+                    </button>
+                    <button
+                      className="view-more-button"
+                      onClick={() => handleViewMore(product)}
+                    >
+                      Ver más
+                    </button>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+          <Grid size={4} display={{ lg: "block", md: "block", sm: "none", xs: "none" }}>
+            <Map />
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
   );
 };
 
