@@ -245,4 +245,13 @@ body {
 }
 
 
-
+.oo{
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 5px;
+}

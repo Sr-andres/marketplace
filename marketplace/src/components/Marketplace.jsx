@@ -66,14 +66,22 @@ const Marketplace = () => {
 
   // Filtrar productos por nombre y ubicación
   const filteredProducts = products
-    .filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((product) =>
-      locationFilter ? product.location?.includes(locationFilter) : true
-    )
-    .sort((a, b) => (sortOrder === "asc" ? a.price - b.price : b.price - a.price));
-
+  .filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+  .filter((product) =>
+    locationFilter ? product.location?.includes(locationFilter) : true
+  )
+  .sort((a, b) => {
+    if (sortOrder === "asc") {
+      return a.price - b.price;
+    } else if (sortOrder === "desc") {
+      return b.price - a.price;
+    } else if (sortOrder === "recent") {
+      return new Date(b.timestamp) - new Date(a.timestamp); // Ordenar por fecha de creación
+    }
+    return 0;
+  });
   return (
     <div className="marketplace-container">
       <div className="title">
@@ -82,17 +90,18 @@ const Marketplace = () => {
      
 
       <div className="filters">
-        <input
+        <input className="oo"
           type="text"
           placeholder="Buscar por nombre"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <select onChange={(e) => setSortOrder(e.target.value)}>
-          <option value="asc">Precio: Menor a Mayor</option>
-          <option value="desc">Precio: Mayor a Menor</option>
-        </select>
-        <input
+        <select className="oo" onChange={(e) => setSortOrder(e.target.value)}>
+  <option value="asc">Precio: Menor a Mayor</option>
+  <option value="desc">Precio: Mayor a Menor</option>
+  <option value="recent">Más reciente</option> 
+</select>
+        <input className="oo"
           type="text"
           placeholder="Filtrar por ubicación"
           value={locationFilter}
