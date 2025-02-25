@@ -7,7 +7,7 @@ import Marketplace from "./components/Marketplace"; // Asegúrate de que la ruta
 const App = () => {
   const [user, setUser] = useState(null);
   const auth = getAuth();
-
+  
   useEffect(() => {
     // Verifica el estado de autenticación del usuario
     onAuthStateChanged(auth, (currentUser) => {

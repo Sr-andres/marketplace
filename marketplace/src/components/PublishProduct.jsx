@@ -9,16 +9,16 @@ const PublishProduct = ({ setIsFormVisible, setProducts }) => {
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productImages, setProductImages] = useState([]);
-  const [productLocation, setProductLocation] = useState("");
+  const [productLocation, setProductLocation] = useState({latitude:0, longitude:0});
   const [uploading, setUploading] = useState(false);
 
   // Función para obtener la ubicación del usuario
-  const getLocation = () => {
+   const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setProductLocation(`${latitude}, ${longitude}`);
+          setProductLocation([latitude, longitude]);
         },
         (error) => {
           console.error("Error obteniendo ubicación: ", error);

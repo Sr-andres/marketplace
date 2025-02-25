@@ -1,9 +1,12 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { useEffect } from 'react'
+import { Alert } from '@mui/material';
 
+export const Map = ({currentLocation}) => {
 
-export default function Map() {
+  
   return (
-    <MapContainer center={[7.0768479, -73.8479871,17]} zoom={11} style={{ height: "100vh", width: "100%" }}>
+    <MapContainer center={currentLocation} zoom={11} style={{ height: "100vh", width: "100%" }}>
       {/* Capa de OpenStreetMap */}
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -11,7 +14,7 @@ export default function Map() {
       />
       
       {/* Marcador en Bogotá (puedes cambiar las coordenadas) */}
-      <Marker position={[7.0768479, -73.8479871,17]}>
+      <Marker position={currentLocation}>
         <Popup>
           ¡Hola! Estoy en Barranca.
         </Popup>
@@ -19,3 +22,5 @@ export default function Map() {
     </MapContainer>
   );
 }
+
+export default Map

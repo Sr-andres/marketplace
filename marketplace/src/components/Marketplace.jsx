@@ -17,8 +17,10 @@ const Marketplace = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [locationFilter, setLocationFilter] = useState("");
   const navigate = useNavigate();
-
+  const [currentLocation, setCurrentLocation] = useState([7.0597681, -73.8720947]);
+  
   useEffect(() => {
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
         navigate("/"); // Redirigir al login si no hay usuario autenticado
@@ -73,9 +75,9 @@ const Marketplace = () => {
   .filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
-  .filter((product) =>
-    locationFilter ? product.location?.includes(locationFilter) : true
-  )
+  // .filter((product) =>
+  //   locationFilter ? product.location?.includes(locationFilter) : true
+  // )
   .sort((a, b) => {
     if (sortOrder === "asc") {
       return a.price - b.price;
@@ -89,7 +91,7 @@ const Marketplace = () => {
   return (
     <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
 
-      {/* <div className="title">
+      <div className="title">
         <h1>Bienvenido a ReestrenaYa</h1>
       </div>
 
@@ -129,7 +131,7 @@ const Marketplace = () => {
           setIsFormVisible={setIsFormVisible}
           setProducts={setProducts}
         />
-      )} */}
+      )}
 
       <Box sx={{ flex: 1, overflow: "hidden" }}>
         <Grid container flex={1} spacing={3}>
@@ -157,8 +159,10 @@ const Marketplace = () => {
                     {/* Mostrar botón de ubicación solo si el producto tiene coordenadas */}
                     <button className="ubic">
                       {product.location && (
-                        <a
-                          href={`https://www.google.com/maps?q=${product.location}`}
+                        <a 
+                          onClick={() => {const location = [product.location[0], product.location[1]];
+                            
+                            setCurrentLocation(location);}}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="location-button"
@@ -185,7 +189,7 @@ const Marketplace = () => {
             </Grid>
           </Grid>
           <Grid size={4} display={{ lg: "block", md: "block", sm: "none", xs: "none" }}>
-            <Map />
+            <Map currentLocation={currentLocation} />
           </Grid>
         </Grid>
       </Box>
