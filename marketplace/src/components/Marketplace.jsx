@@ -125,6 +125,9 @@ const Marketplace = () => {
       <button className="logout-button" onClick={handleLogout}>
         Cerrar sesión
       </button>
+      <button className="mi-ubic" >
+        mi ubicación
+      </button>
 
       {isFormVisible && (
         <PublishProduct
