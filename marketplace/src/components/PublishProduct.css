@@ -1,6 +1,7 @@
 
 .conta {
-    position: fixed;
+  flex-direction: column;
+    position: absolute;
     top: 50%;
     left: 50%;
     width: 25%;
@@ -35,4 +36,25 @@
     background-color: rgb(255, 255, 255);
     
   }
-    
+
+@media (max-width: 768px) {
+  .conta {
+    width: 90%;
+  }
+  }
+/* Tablets */
+@media (min-width: 601px) and (max-width: 900px) {
+  .title-inic {
+    font-size: 2.2rem;
+  }
+  .login-container {
+    width: 80%; /* Más ancho en tablets */
+  }
+}
+
+/* Pantallas grandes (escritorio) */
+@media (min-width: 901px) {
+  .title-inic {
+    font-size: 3rem;
+  }
+}

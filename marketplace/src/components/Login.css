@@ -1,12 +1,16 @@
-/* Login.css */
-/* body {
-  /* background-image: url("/src/assets/img/fondo.jpeg"); 
+
+  body {
+  background-image: url("/src/assets/img/fondo.jpeg"); 
   background-size: cover; 
   background-position: center;
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;   
   height: 100vh; 
   margin: 0; 
-  padding: 0; */
+  padding: 0; 
+  align-items: flex-start;
+  justify-content: center; 
+
+}
  
 /* Contenedor principal del login */
 @keyframes animar-sombra {
@@ -26,6 +30,11 @@
 
 .login-container {
     flex-direction: column;
+    position: absolute;
+    left:50%;
+    transform: translateX(-50%);
+    top: 80px;
+    width: 90%;  
     display: flex;
     padding: 20px;  
     max-width: 400px;
@@ -104,15 +113,46 @@
   }
   .title-inic {
     position: absolute;
-    top: 0; /* Lo coloca en la parte superior */
-    left: 430px; /* Lo alinea a la izquierda */
+    top: 50px; /* Centrar verticalmente */
+    left: 50%; /* Centrar horizontalmente */
+    transform: translate(-50%, -50%); /* Ajustar para centrar completamente */
     margin: 10px; /* Espacio opcional desde los bordes */
     padding: 10px; /* Para que el fondo verde no esté pegado al texto */
     font-size: 50px;
     font-weight: bold;
+   
     text-transform: uppercase;
     animation: neonGlow 5s infinite alternate;
- }
+    text-align: center; /* Asegurar que el texto esté centrado */
+}
+ /* pantallas moviles */
+
+ @media (max-width: 600px) {
+  .title-inic {
+    font-size: 1.8rem; /* Título más pequeño */
+  }
+  .login-container {
+    width: 100%; /* Ocupa todo el ancho */
+    border-radius: 8px; /* Bordes más pequeños */
+  }
+} 
+
+/* Tablets */
+@media (min-width: 601px) and (max-width: 900px) {
+  .title-inic {
+    font-size: 2.2rem;
+  }
+  .login-container {
+    width: 80%; /* Más ancho en tablets */
+  }
+}
+
+/* Pantallas grandes (escritorio) */
+@media (min-width: 901px) {
+  .title-inic {
+    font-size: 3rem;
+  }
+}
 
  @keyframes neonGlow {
   0% { 

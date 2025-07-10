@@ -18,7 +18,7 @@ const Marketplace = () => {
   const [locationFilter, setLocationFilter] = useState("");
   const navigate = useNavigate();
   const [currentLocation, setCurrentLocation] = useState([7.0597681, -73.8720947]);
-  
+
   useEffect(() => {
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -72,22 +72,22 @@ const Marketplace = () => {
 
   // Filtrar productos por nombre y ubicación
   const filteredProducts = products
-  .filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-  // .filter((product) =>
-  //   locationFilter ? product.location?.includes(locationFilter) : true
-  // )
-  .sort((a, b) => {
-    if (sortOrder === "asc") {
-      return a.price - b.price;
-    } else if (sortOrder === "desc") {
-      return b.price - a.price;
-    } else if (sortOrder === "recent") {
-      return new Date(b.timestamp) - new Date(a.timestamp); // Ordenar por fecha de creación
-    }
-    return 0;
-  });
+    .filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    // .filter((product) =>
+    //   locationFilter ? product.location?.includes(locationFilter) : true
+    // )
+    .sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a.price - b.price;
+      } else if (sortOrder === "desc") {
+        return b.price - a.price;
+      } else if (sortOrder === "recent") {
+        return new Date(b.timestamp) - new Date(a.timestamp); // Ordenar por fecha de creación
+      }
+      return 0;
+    });
   return (
     <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
 
@@ -104,10 +104,10 @@ const Marketplace = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <select className="oo" onChange={(e) => setSortOrder(e.target.value)}>
-  <option value="asc">Precio: Menor a Mayor</option>
-  <option value="desc">Precio: Mayor a Menor</option>
-  <option value="recent">Más reciente</option> 
-</select>
+          <option value="asc">Precio: Menor a Mayor</option>
+          <option value="desc">Precio: Mayor a Menor</option>
+          <option value="recent">Más reciente</option>
+        </select>
         <input className="oo"
           type="text"
           placeholder="Filtrar por ubicación"
@@ -136,66 +136,52 @@ const Marketplace = () => {
         />
       )}
 
-      <Box sx={{ flex: 1, overflow: "hidden" }}>
-        <Grid container flex={1} spacing={3}>
-          <Grid
-            size={8}
-            sx={{
-              overflow: "scroll",
-              maxHeight: "100vh",
-              scrollbarWidth: "none"
-            }}
-          >
-            <Grid container spacing={2}>
-              {filteredProducts.map((product, index) => (
-                <Grid
-                  key={index}
-                  size={{ lg: 4 }}
-                >
-                  <Box sx={{ background: "white", width: "100%", height: 300, borderRadius: 3 }}>
-                    <div className="product-img">
-                      <Carousel images={product.images} />
-                    </div>
-                    <h3 className="product-title">{product.name}</h3>
-                    <p className="product-price">${product.price}</p>
-
-                    {/* Mostrar botón de ubicación solo si el producto tiene coordenadas */}
+      <Box sx={{ display: "flex", height: "calc(100vh - 100px)" }}> {/* Ajusta 100px si tu header ocupa otro alto */}
+        <Box sx={{ flex: 1, overflowY: "auto", padding: 2 }}>
+          <Grid container spacing={2}>
+            {filteredProducts.map((product, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Box className="product-card" >
+                  <div className="product-img">
+                    <Carousel images={product.images} />
+                  </div>
+                  <h3>{product.name}</h3>
+                  <p>${product.price}</p>
+                  {product.location && (
                     <button className="ubic">
-                      {product.location && (
-                        <a 
-                          onClick={() => {const location = [product.location[0], product.location[1]];
-                            
-                            setCurrentLocation(location);}}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="location-button"
-                        >
-                          📍 Ver Ubicación
-                        </a>
-                      )}
+                      <a
+                        onClick={() => {
+                          const location = [product.location[0], product.location[1]];
+                          setCurrentLocation(location);
+                        }}
+                      >
+                        📍 Ver Ubicación
+                      </a>
                     </button>
-                    <button
-                      className="delete-button"
-                      onClick={() => handleDelete(product.id)}
-                    >
-                      Eliminar
-                    </button>
-                    <button
-                      className="view-more-button"
-                      onClick={() => handleViewMore(product)}
-                    >
-                      Ver más
-                    </button>
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
+                  )}
+                  <button onClick={() => handleDelete(product.id)}>Eliminar</button>
+                  <button onClick={() => handleViewMore(product)}>Ver más</button>
+                </Box>
+              </Grid>
+            ))}
           </Grid>
-          <Grid size={4} display={{ lg: "block", md: "block", sm: "none", xs: "none" }}>
-            <Map currentLocation={currentLocation} />
-          </Grid>
-        </Grid>
+        </Box>
+
+        {/* Mapa fijo */}
+        <Box
+          sx={{
+            width: "400px", // Tamaño fijo del mapa
+            minWidth: "400px",
+            height: "100%",
+            position: "sticky",
+            top: 0,
+            borderLeft: "1px solid #ccc",
+          }}
+        >
+          <Map currentLocation={currentLocation} />
+        </Box>
       </Box>
+
     </Box>
   );
 };

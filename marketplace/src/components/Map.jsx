@@ -72,5 +72,5 @@ export const Map = ({ currentLocation }) => {
     </MapContainer>
   );
 };
-
+  
 export default Map;
